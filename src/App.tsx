@@ -1,10 +1,18 @@
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+
+// Importing components
+import Form from "./components/form";
+
+// Importing pages
+
 const App = () => {
-  // Replace this with your code
   return (
-    <div>
-      <h1>Spring 2025 Hack4Impact-UMD Technical Application Assessment</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Form />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
