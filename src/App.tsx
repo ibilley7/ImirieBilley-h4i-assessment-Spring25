@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
 // Importing components
-import Form from "./components/form";
+import Form from "./components/Form";
 
 // Importing pages
 
