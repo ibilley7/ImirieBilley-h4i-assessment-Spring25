@@ -6,6 +6,9 @@ import { useLocation } from "react-router-dom";
 
 export default function DisplayPage(){
     const { state } = useLocation();
+    const phrase = state.phrase;
+    const startYear = state.startYear;
+    const endYear = state.endYear;
 
 
     // Posts is an empty array at the start
@@ -28,9 +31,9 @@ export default function DisplayPage(){
     return (
         
         <div>
-            <p>Phrase: {state.phrase}</p>
-            <p>Start year: {state.startYear}</p>
-            <p>End year: {state.endYear}</p>
+            <p>Phrase: {phrase}</p>
+            <p>Start year: {startYear}</p>
+            <p>End year: {endYear}</p>
             
         </div>
     
