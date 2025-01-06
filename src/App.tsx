@@ -1,15 +1,17 @@
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 
-// Importing components
-import Form from "./components/Form";
+import "./styles.css";
 
 // Importing pages
+import LandingPage from "./pages/Landingpage/LandingPage";
+import DisplayPage from "./pages/Displaypage/Displaypage";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Form />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/display" element={<DisplayPage />}/>
       </Routes>
     </BrowserRouter>
   );
