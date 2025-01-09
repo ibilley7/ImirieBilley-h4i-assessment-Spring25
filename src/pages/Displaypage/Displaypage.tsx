@@ -1,43 +1,52 @@
 import { useLocation } from "react-router-dom";
-//import { useState, useEffect} from 'react';
-//import axios from 'axios';
-//const API_URL = 'https://images-api.nasa.gov/search';
+// useEffect = perform API requests. Renders immediately
+// useState = prepare a state in which the data is returned. Store returned data in React local state.
 
 
 export default function DisplayPage(){
+    // Accessed what was passed through navigate. 
     const { state } = useLocation();
-    const phrase = state.phrase;
-    const startYear = state.startYear;
-    const endYear = state.endYear;
+    // Creating the correct URL to fetch from, including necessary query parameters
 
-
-    // Posts is an empty array at the start
-    //const [posts, setPosts] = useState([]);
-
-    // Defining the function that is fetching the data from the API
-    /*const fetchData = async () => {
-        const { data } = await axios.get(API_URL.concat(`/?q=${state.phrase}`));
-        setPosts(data);
+    if(!state?.collection?.items) {
+        return <div>No results found</div>;
     }
-
-    // useEffect hook triggers the fetchData after the first render
-    useEffect(() => {
-        fetchData();
-    }, []);
-    */
     
-
-
+    //To return: 
     return (
-        
         <div>
-            <p>Phrase: {phrase}</p>
-            <p>Start year: {startYear}</p>
-            <p>End year: {endYear}</p>
-            
+            <h1>NASA Image Results</h1>
+            {state.collection.items.map((item: any, index: number) => {
+                const imageData = item.data[0];
+                const imageUrl = item.links?.[0]?.href;
+
+                return (
+                    <div key={index} style={{
+                        margin: '20px',
+                        padding: '15px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px'
+                    }}>
+                        {imageUrl && (
+                            <img 
+                                src={imageUrl} 
+                                alt={imageData.title}
+                                style={{ maxWidth: '300px', marginBottom: '10px' }}
+                            />
+                        )}
+                        <h2 style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                            {imageData.title}
+                        </h2>
+                        <p style={{ marginBottom: '5px' }}>
+                            {imageData.description}
+                        </p>
+                        <p style={{ color: '#666' }}>
+                            Date Created: {new Date(imageData.date_created).toLocaleDateString()}
+                        </p>
+                    </div>
+                );
+
+            })}
         </div>
-    
-
-
     );
 }
