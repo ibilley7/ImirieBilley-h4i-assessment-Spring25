@@ -50,7 +50,9 @@ export default function LandingPage () {
                 setNoResults(true);
             } else {
                 navigate("/display", { state: data});
-            }
+            } 
+
+
             
         } catch(err) {
             setError(err instanceof Error ? err.message : 'An error occured');
@@ -86,9 +88,12 @@ export default function LandingPage () {
                     </button>
                     {error && <p className="error-message">{error}</p>}
                     
-                    {noResults && <p className="no-results-message">No results found. Please try a different query or adjust the year range.</p>}
+                    
                     
                 </form>
+                {noResults && <p className="no-results-message">No results found. Please try a different query or adjust the year range.</p>}
+
+                
             </div>
         </div>
         
