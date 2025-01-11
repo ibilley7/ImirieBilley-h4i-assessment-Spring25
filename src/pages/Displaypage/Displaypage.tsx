@@ -1,52 +1,80 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // useEffect = perform API requests. Renders immediately
 // useState = prepare a state in which the data is returned. Store returned data in React local state.
+import GalleryCard from "../../components/GalleryCard";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./Displaypage.css";
+import image from "C:/Users/imiri/Desktop/ImirieBilley-h4i-assessment-Spring25/src/assets/background.jpg";
 
+type Slide = {
+    url: string,
+    title: string,
+    description: string,
+    date: string
+}
+
+type Item = {
+    data?: {
+        title?: string,
+        description?: string,
+        date_created?: string;
+    }[];
+    links?: {
+        href: string;
+    }[];
+}
 
 export default function DisplayPage(){
     // Accessed what was passed through navigate. 
     const { state } = useLocation();
-    // Creating the correct URL to fetch from, including necessary query parameters
+    // Search entry slides
+    const slides: Slide[] = [];
 
     if(!state?.collection?.items) {
         return <div>No results found</div>;
     }
-    
-    //To return: 
-    return (
-        <div>
-            <h1>NASA Image Results</h1>
-            {state.collection.items.map((item: any, index: number) => {
-                const imageData = item.data[0];
-                const imageUrl = item.links?.[0]?.href;
 
-                return (
-                    <div key={index} style={{
-                        margin: '20px',
-                        padding: '15px',
-                        border: '1px solid #ccc',
-                        borderRadius: '5px'
-                    }}>
-                        {imageUrl && (
-                            <img 
-                                src={imageUrl} 
-                                alt={imageData.title}
-                                style={{ maxWidth: '300px', marginBottom: '10px' }}
-                            />
-                        )}
-                        <h2 style={{ fontWeight: 'bold', marginBottom: '5px' }}>
-                            {imageData.title}
-                        </h2>
-                        <p style={{ marginBottom: '5px' }}>
-                            {imageData.description}
-                        </p>
-                        <p style={{ color: '#666' }}>
-                            Date Created: {new Date(imageData.date_created).toLocaleDateString()}
-                        </p>
-                    </div>
-                );
 
-            })}
+    /* 
+    url:
+    title:
+    description:
+    date:
+    */
+
+    state.collection.items.forEach((item: Item)=> {
+        if(item.data?.[0] && item.links?.[0]?.href) {
+            const imageData = item.data[0];
+            const imageUrl = item.links[0].href;
+
+            slides.push({
+                url: imageUrl,
+                title: imageData.title || 'Untitled',
+                description: imageData.description || 'No description available',
+                date: imageData.date_created
+                    ? new Date(imageData.date_created).toLocaleDateString("en-US", {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric'
+                    })
+                    : 'Unknown date',
+            });
+        }
+    });
+
+    return(
+        <div className="container">
+            <div
+                className="background" 
+                style={{
+                    backgroundImage:`url(${image})`
+                }}
+            />
+            <Link to="/" state={state}>
+                <button>Back</button>
+            </Link>
+            <GalleryCard slides={slides}/>
         </div>
     );
 }
