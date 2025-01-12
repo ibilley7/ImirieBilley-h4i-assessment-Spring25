@@ -1,24 +1,32 @@
 import { useState } from 'react';
 import { useNavigate} from "react-router-dom";
-
 import "./LandingPage.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import image from "C:/Users/imiri/Desktop/ImirieBilley-h4i-assessment-Spring25/src/assets/background.jpg";
-const API_URL = 'https://images-api.nasa.gov/search';
 
+/* Background image*/
+import image from "../../assets/background.jpg";
+
+/* API Endpoint*/
+const API_URL = 'https://images-api.nasa.gov/search';
 
 // Component for entering the search parameters
 export default function LandingPage () {
     const navigate = useNavigate();
+
+    // Query parameters
     const [query, setQuery] = useState('');
     const [startYear, setStartYear] = useState('');
     const [endYear, setEndYear] = useState('');
 
+    // Used to displays error message when no results are found
     const [noResults, setNoResults] = useState(false);
+
+    // Loading feature when submit is clicked
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Function for fetching from the API using the query parameters that is collected from the form when it's submitted
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
@@ -26,6 +34,7 @@ export default function LandingPage () {
         setNoResults(false);
 
         try{
+            // Collects parameters from the form
             const searchParams = new URLSearchParams({
                 q: query,
                 year_start: startYear,
@@ -45,15 +54,15 @@ export default function LandingPage () {
             }
             const data = await response.json();
 
-            //Check if anything was fetched from the API
+            // If nothing was fetched from the API, displays message
+            // Else navigate to Displaypage, which has the path /display, and send the fetched data there
             if(data.collection?.items?.length === 0) {
                 setNoResults(true);
             } else {
                 navigate("/display", { state: data});
             } 
 
-
-            
+        // Displays error message
         } catch(err) {
             setError(err instanceof Error ? err.message : 'An error occured');
             console.error('Error fetching data', err);
@@ -87,13 +96,10 @@ export default function LandingPage () {
                         {isLoading ? 'Searching...' : 'Search!'}
                     </button>
                     {error && <p className="error-message">{error}</p>}
-                    
-                    
-                    
                 </form>
+
                 {noResults && <p className="no-results-message">No results found. Please try a different query or adjust the year range.</p>}
 
-                
             </div>
         </div>
         

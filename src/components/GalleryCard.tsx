@@ -1,10 +1,9 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
 import "./GalleryCard.css";
 
-
+/* Typing each card*/
 type Slide = {
     url: string,
     title: string,
@@ -12,11 +11,15 @@ type Slide = {
     date: string
 }
 
+/* Typing for array of cards*/
 type GalleryCardProps = {
     slides: Slide[];
 }
 
-// Props is the slides information 
+/* 
+    Describes the component for the GalleryCard slider, which uses React Slick, a carousel component for React.
+    This function sets up the styling and layout for the cards and card slider that display the searched NASA API data.
+*/
 const GalleryCard = ({ slides }:GalleryCardProps) => {
     const settings = {
         dots: false,
@@ -25,6 +28,7 @@ const GalleryCard = ({ slides }:GalleryCardProps) => {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows:true,
+        /*Changing arrow style*/
         prevArrow: <button type="button" className="slick-prev"></button>,
         nextArrow: <button type="button" className="slick-next"></button>
     };
